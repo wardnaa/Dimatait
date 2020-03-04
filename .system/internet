@@ -1,0 +1,22 @@
+#!/bin/bash
+# Checking Internet Connetion bruh!
+inet() {
+	ping -c 1 google.com > /dev/null 2>&1
+	png="$?"
+
+printf "${bgreen}Checking Internet " & sleep 3 & animation
+	if [[ $png == "0" ]]; then
+		printf "\n=[ Internet Connetion : Connected!"
+		sleep 2
+#	controller
+	elif [[ $png == "1" ]]; then
+		sleep 1
+		printf "$bvlue\n=[ Internet Connetion :$red Local Only!\n"
+		exit 1
+	elif [[ $png == "2" ]]; then
+		sleep 1
+		printf "$bblue\n=[ Internet Connetion :$red bro? lu ga konek jaringan bjir!\n"
+		exit 1
+	fi
+clear
+}

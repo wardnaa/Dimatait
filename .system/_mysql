@@ -1,0 +1,441 @@
+#!/bin/bash
+
+
+#world=$(pwd)
+
+
+#mysqlv5() {
+#	# Function installing mysql version 5
+#	printf "\n${bwhite}=[ Installing Mysql Databases "
+#	wget http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm -O $world/.logfile/MySQL5.rpm > /dev/null 2>&1  && \
+#	rpm -ivh $world/.logfile/MySQL5.rpm > /dev/null 2>&1 && \
+#	sudo yum install mysql-community-server -y > /dev/null 2>&1 & animation
+#	printf "${green} -> Instalations Oke!"
+#}
+
+#mysqlvlast() {
+#	# Function Installing mysql lastes version (Maria Db)
+#	printf "\n${bwhite}=[ Installing Mysql Databases "
+#	wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm -O $world/logfile/MysqlRepo.rpm > /dev/null 2>&1 && \
+#	rpm -ivh $world/.logfile/MysqlRepo.rpm > /dev/null 2>&1 && \
+#	sudo yum install mysql-server -y > /dev/null 2>&1 & animation
+#}
+
+#mysqld() {
+	# Mysql Databases Autoconfig
+	# Starting Service Mysqld
+#	printf "validate_password_policy=LOW" >> /etc/my.cnf
+#	printf "\n=[ Staring Mysql Service "
+#	systemctl start mysqld > /dev/null 2>&1 && /
+#	systemctl enable mysqld > /dev/null 2>&1 & animation
+
+	# Opening port mysqld
+#}
+
+# stick() {
+# 	clear;#help;#banner
+# 		while /bin/true
+# 		do
+# 			echo -ne $green"\nItsupport"$white"╺─╸"$green"[ "$white"cli"$green" ]"$red" > " $endc;read case1 case2 case3
+
+# }
+
+enc_sql() {
+	banner-sql() {
+		printf " $white
+ _______               _______ __
+|   |   |.--.--.-----.|       |  |
+|       ||  |  |__ --||   -  _|  |
+|__|_|__||___  |_____||_______|__|
+         |_____|
+
+ ${green}Project   :${bblue} https://github.com/wardnaa/Dimatait
+ ${endc}Tested on : Centos 7
+
+ MySQL is an open-source relational database management system.mysqL is free and open-source
+ software under the terms of the GNU General Public License,
+ and is also available under a variety of proprietary licenses.
+		"
+}
+
+chck='result.txt'
+echo "1337" > result.txt
+result() {
+	cat << !
+
+  Options :
+           +------++----------------------++----------++------------------+
+           | Name ||  Descript            || Required ||   Your Value
+           +------++----------------------++----------++------------------+
+           | FILE ||  The file needed     ||   ${value1}      ${file}
+           | TASK ||  The task will exce  ||   ${value2}       ${type}
+           | PATH ||  The path for result ||   ${value3}       ${path}
+           | USER ||  User for MySQL      ||   ${value4}       ${user}
+           | PASS ||  Pass for MySQL      ||   ${value5}       ${pass}
+           +------++----------------------++----------++------------------+
+!
+}
+
+
+
+helpsql() {
+
+echo -e "\n | "
+echo " | "
+echo " |_ "
+echo "    Options:[arguments] "
+echo ""
+echo -e $green"	     help  "$endc"      |"$green":"$endc"| show this message"
+echo -e $green"	     task list "$endc"  |"$green":"$endc"| show list task  "
+echo -e $green"	     options"$endc"     |"$green":"$endc"| show module options "
+echo -e $green"	     set        "$endc" |"$green":"$endc"| Set a value "
+echo -e $green"	     run        "$endc" |"$green":"$endc"| Execute the module "
+echo -e $green"	     back   "$endc"     |"$green":"$endc"| Back to main"
+echo -e $green"	     clear  "$endc"     |"$green":"$endc"| Clear window"
+echo -e $green"	     ls     "$endc"     |"$green":"$endc"| list directory content"
+echo -e $green"	     cat    "$endc"     |"$green":"$endc"| read file/standard input"
+echo -e $green"	     pwd     "$endc"    |"$green":"$endc"| print name of current/working director"
+echo -e $green"	     exit     "$endc"   |"$green":"$endc"| Exit program"
+echo ""
+
+}
+
+
+		clear;banner-sql
+		while /bin/true
+		do
+			echo -ne $green"\niTsupport""╺─╸"$green"["$white" Mysql "$green"]"$red" > " $endc;read case1 case2 case3 case4
+
+				if   [[ $case1 == "help"    ]]; then
+						helpsql
+
+				elif [[ $case1 == "pwd"     ]]; then
+						echo -ne $red"\nPath : "; pwd
+
+				elif [[ $case1 == "back"    ]]; then
+						controller
+
+				elif [[ $case1 == "ls"      ]]; then
+						echo -e $red;ls
+
+				elif [[ $case1 == "exit"    ]]; then
+						exit 1
+
+				elif [[ $case1 == "clear"   ]]; then
+						clear
+
+				elif [[ $case1 == "cat"     ]] && [[ $case2 == "$case2" ]]; then
+						echo -e "\n$(cat $case2)"
+
+				elif [[ $case1 == "cd"      ]] && [[ $case2 == "$case2" ]]; then
+						cd $case2
+
+				elif [[ $case1 == "options" ]] ; then
+						clear;banner-sql;result
+
+				elif [[ $case1 == "task"    ]] && [[ $case2 == "list" ]]; then
+						echo -e "\n | "
+						echo " |_ "
+						echo "    Task :"
+						echo ""
+						echo -e $green "\t  [1] "$endc"Install v5 \t\t  "$green"[5]"$endc" Edit Crontab \t\t"
+						echo -e $green "\t  [2] "$endc"Install v7 \t\t  "$green"[6]"$endc" Remove all\t"
+						echo -e $green "\t  [3] "$endc"Automatic backup \t\t "
+						echo -e $green "\t  [4] "$endc"Crontab Auto Setting \t  "
+						echo -e ""
+
+				elif [[ $case1 == "set" ]]; then
+
+						if   [[ $case2 == "password"  ]] && [[ $case3 == "$case3" ]]; then
+								pass="$case3"
+
+						elif [[ $case2 == "user"      ]] && [[ $case3 == "$case3" ]]; then
+								user="$case3"
+
+						elif [[ $case2 == "path"      ]] && [[ $case3 == "$case3" ]]; then
+								path="$case3"
+
+						elif [[ $case2 == "task" ]] && [[ $case3 == "list" ]] && [[ $case4 == "$case4" ]]; then
+
+								if 	[[ $case4 == "1" ]]; then
+									echo "1" > $chck
+										file=".logfile/Repositoryv5.rpm"
+										type1="0x1.key"
+										type=$type1
+										value1="True"
+										value2="True"
+										value3="False"
+										value4="False"
+										value5="False"
+										path="-"
+										user="-"
+										pass="-"
+
+								elif [[ $case4 == "2"  ]]; then
+									echo "2" > $chck
+										file="./logfile/Repositoryv7.rpm"
+										type1="0x2.key"
+										type=$type1
+										value1="True"
+										value2="True"
+										value3="False"
+										value4="False"
+										value5="False"
+										path="-"
+										user="-"
+										pass="-"
+
+								elif [[ $case4 == "3" ]]; then
+									echo "3" > $chck
+										file=".template/0x3.key"
+										type1="0x3.key"
+										type=$type1
+										value1=true
+										value2=true
+										value3=true
+										value4="true"
+										value5="true"
+
+
+
+								elif [[ $case4 == "4" ]]; then
+									echo "4" > $chck
+										file=".template/0x4.key"
+										type1="0x4.key"
+										type=$type1
+										value1=true
+										value2=true
+										value3="false"
+										value4="false"
+										value5="false"
+										path="-"
+										user="-"
+										pass="-"
+
+								elif [[ $case4 == "5" ]]; then
+									echo "5" > $chck
+										file=".template/0x5.key"
+										type1="0x5.key"
+										type=$type
+										value1=true
+										value2=true
+										value3="false"
+										value4="false"
+										value5="false"
+										path="-"
+										user="-"
+										pass="-"
+
+								elif [[ $case4 == "6" ]]; then
+									echo "6" > $chck
+										file="-"
+										type1="-"
+										type=$type1
+										value1=true
+										value2="False"
+										value3="False"
+										value4="False"
+										value5="False"
+										path="-"
+										user="-"
+										pass="-"
+
+
+								fi
+						fi
+
+				elif [[ $case1 = "run" ]]; then
+					checker=$(cat result.txt)
+					#echo -e "\n | "
+					#	 echo " |_ "
+					#   echo -e $green"    [+]"$endc" Mount all Requirments\n"
+					#    echo -ne $green"    [+]"$endc" Execute the Task list "
+
+					    if  [[ $checker == "1" ]]; then
+								# Install mysql v5
+								rm -rf key.pas
+							echo -e "\n${green} ==>$endc Warning : \n "
+							echo -e " ${green} => ${endc}Mounting all Requirments"
+							echo -ne " ${green} => ${endc}Execute the task list "
+
+							if [[ -f ".logfile/Repositoryv5.rpm" ]]; then
+								 echo "FILE ADA" >> /dev/null 2>&1
+								( rpm -ivh .logfile/Repositoryv5.rpm >> /dev/null 2>&1
+								  yum install mysql-community-server -y >> /dev/null 2>&1
+									echo  "[mysqld]" >> /etc/my.cnf
+									echo  "validate_password_policy=LOW" >> /etc/my.cnf
+
+							       systemctl enable mysqld >> /dev/null 2>&1 && systemctl start mysqld >> /dev/null 2>&1
+										 #mv /usr/bin/mysql_secure_installation /usr/bin/mysql_secure_installation.original
+							       #cp .system/mysql_secure_installation /usr/bin/
+							       #chmod +x /usr/bin/mysql_secure_installation
+										grep 'temporary password' /var/log/mysqld.log | cut -d ":" -f4  >> key.pas
+ 							      key=$(cat key.pas)
+										sed -e "s/Human/$key/g" header/mysql.logo > header/mysql.ori
+
+							      ) & animation
+										clear
+										bash header/mysql.ori && mysql_secure_installation && rm -rf header/mysql.ori
+							      firewall-cmd --zone=public --add-port="3306/tcp" --permanent > /dev/null 2>&1
+							      firewall-cmd --reload > /dev/null 2>&1
+
+							else
+								wget "http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm" -O .logfile/Repositoryv5.rpm  > /dev/null2>&1
+								echo -e $green "\n\n Type run again"
+
+							fi
+
+					    	echo -e "\n ${green} => ${endc}Done ! "
+
+					    elif [[ $checker == "2" ]]; then
+					    	# install mysql v7
+								rm -rf key.pas
+					    	echo -e "\n${green} ==>$endc Warning : \n "
+							echo -e " ${green} => ${endc}Mounting all Requirments"
+							echo -ne " ${green} => ${endc}Execute the task list "
+
+					    	 if [[ -f ".logfile/Repositoryv7.rpm" ]]; then
+							 	 echo "FILE ADA" >> /dev/null 2>&1
+							  	( rpm -ivh .logfile/Repositoryv7.rpm >> /dev/null 2>&1
+								  yum install mysql-server -y >> /dev/null 2>&1
+									echo  "[mysqld]" >> /etc/my.cnf
+									echo  "validate_password_policy=LOW" >> /etc/my.cnf
+
+							       systemctl enable mysqld >> /dev/null 2>&1 && systemctl start mysqld >> /dev/null 2>&1
+							       #mv /usr/bin/mysql_secure_installation /usr/bin/mysql_secure_installation.original
+							       #cp .system/mysql_secure_installation /usr/bin/
+							       #chmod +x /usr/bin/mysql_secure_installation
+										grep 'temporary password' /var/log/mysqld.log | cut -d ":" -f4  >> key.pas
+ 							      key=$(cat key.pas)
+										sed -e "s/Human/$key/g" header/mysql.logo > header/mysql.ori
+										sleep 1
+
+							      ) & animation
+
+										bash header/mysql.ori && mysql_secure_installation && rm -rf header/mysql.ori
+							      firewall-cmd --zone=public --add-port="3306/tcp" --permanent > /dev/null 2>&1
+							      firewall-cmd --reload > /dev/null 2>&1
+							else
+
+								wget "http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm" -O .logfile/Repositoryv7.rpm  > /dev/null2>&1
+								echo -e $green "\n\n Type run again"
+					    	 fi
+
+					    	 echo -e "\n ${green} => ${endc}Done ! "
+
+					    elif [[ $checker == "3" ]]; then
+					     	# auto backup file generate
+					     	echo -e "\n${green} ==>$endc Warning : \n "
+							echo -e " ${green} => ${endc}Mounting all Requirments"
+						(	echo -ne " ${green} => ${endc}Execute the task list "
+
+					     	rm -rf .infog/result.txt
+					    	rm -rf .system/nama.txt
+					    	rm -rf .system/password.txt
+					    	rm -rf .infog/autobackup.sh
+					    	rm -rf output/dimata-cronjob.sh
+					    	sed 's+naruto+'$user'+g' .template/0x3.key >> .system/nama.txt
+							sed 's+human+'$pass'+g' .system/nama.txt >> .system/password.txt
+							rm -rf .system/nama.txt
+							sed -e "s=path=$path=" .system/password.txt >> .infog/result.txt
+							sleep 3
+							cp .infog/result.txt .infog/autobackup.sh
+							chmod +x .infog/autobackup.sh
+							bash .infog/autobackup.sh
+							echo "" >> output/dimata-cronjob.sh
+					    	cat .system/ziped.txt >> output/dimata-cronjob.sh
+					    	sed -e "s=path=$path=" output/dimata-cronjob.sh >> output/dimata-crontab.sh
+							chmod +x output/dimata-crontab.sh
+							rm -rf output/dimata-cronjob.sh
+							#echo "white"
+							#ho "$user"
+							#echo "$pass"
+							#echo "$path"
+						 ) & animation
+							echo -e "\n ${green} => ${endc}Done ! "
+							echo -e "\n ${green} => ${endc}Check Result in output folder"
+
+						elif [[ $checker == "4" ]]; then
+							# crontab auto confi4gure
+
+							echo -ne "\n $green Insert Path of File Backup ->${endc}  "
+							read directory
+							echo -e "\n$green ==> ${endc}Set Crontab Timer"
+							echo -ne "\n$green           => ${endc}Minute : "
+							read time
+							echo -ne "$green           => ${endc}Hours  : "
+							read time2
+							echo -ne "$green           => ${endc}Day    : "
+							read time3
+							echo -ne "$green           => ${endc}Month  : "
+							read time4
+							echo -ne "$green           => ${endc}Week   : "
+							read time5
+							# justice
+							place=$(pwd)
+							clock="*"
+							directoryasli="$place/output/dimata-crontab.sh"
+							directory="${directory:-${directoryasli}}"
+							time="${time:-${clock}}"
+							time2="${time2:-${clock}}"
+							time3="${time3:-${clock}}"
+							time4="${time4:-${clock}}"
+							time5="${time5:-${clock}}"
+
+
+							echo -e "\n${green} ==>$endc Warning : \n "
+							echo -e " ${green} => ${endc}Mounting all Requirments"
+						(	echo -ne " ${green} => ${endc}Execute the task list "
+
+							crontab -l > gungdewi.txt >> /dev/null 2>&1
+							echo -e "$time $time2 $time3 $time4 $time5 $directory" >> gungdewi.txt
+							crontab gungdewi.txt
+							sleep 5
+
+
+
+
+						) & animation
+						echo -e "\n\n ${green} Result : ${endc} $(cat gungdewi.txt)"
+						echo -e "\n ${green} => ${endc}Done ! "
+						rm -rf gungdewi.txt
+
+					elif [[ $checker == "5" ]]; then
+							# Edit crontab
+							echo -e "\n${green} ==>$endc Warning : \n "
+							echo -e " ${green} => ${endc}Mounting all Requirments"
+						 (  echo -ne " ${green} => ${endc}Execute the task list "
+
+						 	sleep 3
+
+						 ) & animation
+						 echo -e "\n"
+						 crontab -e
+						 echo -e "\n ${green} Result : ${endc} $(crontab -l)"
+						 echo -e "\n ${green} => ${endc}Done ! "
+
+					elif [[ $checker == "6" ]]; then
+						# Remove all
+						echo ""
+						( echo -ne ${green}"Doing Important Work ! ${red}"
+							sleep 50
+
+						) & animation
+
+						echo -e ${red}"\n\nYOU DON'T PAY ME TO DD THIS ! ${white} ヽ(ಠ_ಠ)ノ"
+
+
+
+
+
+						fi
+
+          else
+            oops
+
+
+
+				fi
+
+		done
+}

@@ -1,0 +1,15 @@
+#!/bin/bash
+#tomcat service
+
+if [[ "$1" == "start" ]]; then
+/usr/share/tomcat/bin/startup.sh
+elif [[ "$1" == "stop" ]]; then
+/usr/share/tomcat/bin/shutdown.sh
+elif [[ "$1" == "restart" ]]; then
+/usr/share/tomcat/bin/shutdown.sh
+/usr/share/tomcat/bin/startup.sh
+elif [[ "$1" == "version" ]]; then
+/usr/share/tomcat/bin/version.sh
+else
+echo "use | version | start | stop | restart "
+fi

@@ -1,0 +1,22 @@
+#!/bin/bash
+# Checking semua requierments suapaya berjalan dengan semestinya
+requirment() {
+	# Cheking Dialog
+	printf "\n"
+	#printf "\t${byellow}Doing Important Work \n"
+#	animation
+
+	which dialog > /dev/null 2>&1
+	if [[ "$?" != 0 ]]; then 
+		sleep 2
+		sudo yum install dialog -y  > /dev/null 2>&1
+	fi
+
+	which crontab > /dev/null 2>&1
+	if [[ "$?" != 0 ]]; then
+		sleep 2
+		sudo yum install cronnie -y > /dev/null 2>&1
+	fi
+#kill "$!"
+
+}

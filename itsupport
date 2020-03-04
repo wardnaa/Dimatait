@@ -1,0 +1,217 @@
+#!/bin/bash
+###########################################################
+# Update Tools From Dimatait-pkl						  #
+# Installer and auto configuration server on centos 7     #
+# Created by Wardana , Gungdewips						  #
+###########################################################
+# @SMKN 1 Denpasar
+# FIX All Error maybe
+
+readonly codename="Suckseed"
+readonly version="2.0.0"
+readonly signature="Copyright (C) 2020-2021 Suckseed"
+readonly git_url="https://github.com/wardnaa/dimata"
+
+# Colors for terminal output
+export red=$'\e[0;91m'
+export green=$'\e[0;92m'
+export blue=$'\e[0;94m'
+export white=$'\e[0;97m'
+export cyan=$'\e[0;96m'
+export endc=$'\e[0m'
+
+# b = bold
+export bgreen=$'\e[1;92m'
+export bblue=$'\e[1;94m'
+export bwhite=$'\e[1;97m'
+export bcyan=$'\e[1;96m'
+export byellow=$'\e[1;96m'
+
+
+resize -s 25 100 > /dev/null 2>&1
+
+banner() {
+	printf " $white
+ __ _______                                      __
+|__|_     _|.-----.--.--.-----.-----.-----.----.|  |_
+|  | |   |  |__ --|  |  |  _  |  _  |  _  |   _||   _|
+|__| |___|  |_____|_____|   __|   __|_____|__|  |____|
+                        |__|  |__|                      ${red}2.0
+ ${green}Project   :${bblue} https://github.com/wardnaa/Dimatait
+ ${endc}Tested on : Centos 7
+
+ Running all parts of this script is recommended for centos 7 only
+ please run yum update and yum upgrade for successfully installation!
+ make sure you have a good internet connection to running this scripts
+"
+}
+#echo -e "${rd}68 ${gr}105 ${bl}109 ${rd}97 ${gr}116 ${bl}97 ${rd}83 ${gr}117 ${bl}112 ${rd}112 ${gr}111 ${bl}114 ${rd}116" # ini banner ga pake function males
+## Check akses root dulu gan
+echo "1337" > result.txt
+source .system/_mysql
+source .system/_java
+source .system/_tomcat
+source .system/requirments
+source .system/internet
+source  task-list
+
+###################################
+####### CRTL_C ILEGAL >:( #########
+###################################
+trap ctrl_c INT
+ctrl_c() {
+clear
+echo
+ echo -e ${red}"YOO THATS ILEGAL DUDE ! ${white} ヽ(ಠ_ಠ)ノ"
+exit 0
+}
+
+root() {
+	if [[ $EUID != 0 ]]; then
+		echo -e "${red}\n=[ Please run this script with [ ${bgreen}Root${red} ] Access  "
+		echo -ne "${byellow}=[ Click ENTER To Continue "
+		read -r  continue
+			sleep 1
+		exit 1
+
+	fi
+}
+
+# Cuma animasi loading biar keren aja
+animation() {
+	nyawa=$!
+	local i sp n
+	sp='/-\|'
+	n=${#sp}
+	printf ''
+	while [ -d /proc/$nyawa ] ; do
+		printf "%s\b" "${sp:i++%n:1}"
+	done
+}
+
+biner()
+{
+    echo -e "\n"
+    bar=" 01100111001001001110111001101010101010110101001010111001010101010101010"
+    barlength=${#bar}
+    i=0
+    while ((i < 100)); do
+        n=$((i*barlength / 100))
+        printf "\e[00;32m\r[%-${barlength}s]\e[00m" "${bar:0:n}"
+        ((i += RANDOM%5+2))
+        sleep 0.02
+    done
+}
+module(){
+echo -e "\n | "
+echo " |_ "
+echo "    Options:[Use ID] "
+echo ""
+echo -e $green"	     	     0x1  "$endc"|"$green":"$endc"|  This option for Mysql "
+echo -e $green"	     	     0x2"$endc"  |"$green":"$endc"|  This option for Tomcat"
+echo -e $green"	     	     0x3"$endc"  |"$green":"$endc"|  This option for Java"
+}
+
+oops(){
+	     					echo -e "\n | "
+							echo " |_ "
+							echo -e $red"    [-]$endc Wrong: spesific your command - "$green"[help] $endc"
+}
+
+err(){
+
+	     					echo -e "\n | "
+							echo " |_ "
+							echo -e $red"    [-]$endc Ops: before use this options, you must set module - "$green"[use ID] $RESET "
+}
+err1(){
+
+	     					echo -e "\n | "
+							echo " |_ "
+							echo -e $red"    [-]$endc Ops: use ID - Example : "$green"use 0x1 (Mysql)$endc "
+}
+
+
+help(){
+
+echo -e "\n | "
+echo " | "
+echo " |_ "
+echo "    Options:[arguments] "
+echo ""
+echo -e $green"	     help  "$endc"      |"$green":"$endc"| show this message"
+echo -e $green"	     show"$endc"        |"$green":"$endc"| show all modules from this tools"
+echo -e $green"	     use "$endc"        |"$green":"$endc"| use a module, ex : use [ID] "
+echo -e $green"	     back   "$endc"     |"$green":"$endc"| Back to main"
+echo -e $green"	     clear  "$endc"     |"$green":"$endc"| Clear window"
+echo -e $green"	     ls     "$endc"     |"$green":"$endc"| list directory content"
+echo -e $green"	     cat    "$endc"     |"$green":"$endc"| read file/standard input"
+echo -e $green"	     pwd     "$endc"    |"$green":"$endc"| print name of current/working director"
+echo -e $green"	     exit     "$endc"   |"$green":"$endc"| Exit program"
+echo ""
+}
+
+
+controller() {
+	clear;banner
+		while /bin/true
+		do
+				echo -ne $green"\niTsupport""╺─╸"$green"[ "$white"cli"$green" ]"$red" > ";tput sgr0 ;read ops_1 ops_2 ops_3
+
+				if   [[ $ops_1 == "help"	  	]]; then
+						help
+
+				elif [[ $ops_1 == "exit" 		]]; then
+						exit 1
+
+				elif [[ $ops_1 == "pwd"   		]]; then
+						echo -ne $red"\nPath : "; pwd
+
+				elif [[ $ops_1 == "clear" 		]]; then
+						clear
+
+				elif [[ $ops_1 == "ls"     		]]; then
+						echo -e $red;ls
+
+				elif [[ $ops_1 == "set" 	    ]]; then
+						err
+
+				elif [[ $ops_1 == "options"		]]; then
+						err
+
+				elif [[ $ops_1 == "show"   		]]; then
+						module
+
+				elif [[ $ops_1 == "banner" 		]]; then
+						clear;banner
+
+				elif [[ $ops_1 == "use"	 ]] && [[ $ops_2 == "0x1"   ]]; then
+						enc_sql
+
+				elif [[ $ops_1 == "cd"      ]] && [[ $ops_2 == "$ops_2" ]]; then
+						cd $ops_2
+
+				elif [[ $ops_1 == "use"  ]] && [[ $ops_2 == "0x2"   ]]; then
+						enc_tomcat
+
+				elif [[ $ops_1 == "use"  ]] && [[ $ops_2 == "0x3"   ]]; then
+						enc_java
+
+				elif [[ $ops_1 == "task" ]] && [[ $ops_2 == "list" ]]; then
+						err1
+
+				elif [[ $ops_1 == "cat" ]] && [[ $ops_2 == "$ops_2" ]]; then
+						echo -e "\n$(cat $ops_2)"
+
+				elif [[ $ops_1 == "use"   		]]; then # not Spesific
+						err1
+				else
+					oops
+				fi
+
+		done
+}
+clear
+root
+inet
+controller

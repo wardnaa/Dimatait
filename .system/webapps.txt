@@ -1,0 +1,3 @@
+cp -r /usr/share/tomcat/webapps/ dir/webapps_$date
+cd dir/ && zip -r webapps_backup_$date.zip webapps*
+rm -rf dir/webapps_$date 

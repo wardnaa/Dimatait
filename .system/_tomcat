@@ -1,0 +1,460 @@
+#!/bin/bash
+
+enc_tomcat() {
+
+rm -rf .system/tomcat.result
+	tomcat_banner() {
+	printf " $white
+ _______                             _______
+|_     _|.-----.--------.----.---.-.|_     _|
+  |   |  |  _  |        |  __|  _  |  |   |
+  |___|  |_____|__|__|__|____|___._|  |___|
+
+ ${green}Project   :${bblue} https://github.com/wardnaa/Dimatait
+ ${endc}Tested on : Centos 7
+
+ Tomcat is an application server from the Apache Software Foundation,
+ that executes Java servlets and renders Web pages that include Java Server Page coding.
+ Described as a reference implementation of the Java Servlet and the Java Server Page specifications
+
+		"
+	}
+
+chck='result.txt'
+echo "1337" > result.txt
+result() {
+	cat << !
+
+  Options :
+           +------++----------------------++------------++----------------+
+           | Name ||  Descript            ||  Required  ||   Your Value
+           +------++----------------------++------------++----------------+
+           | FILE ||  The file needed     ||   ${value1}        ${file}
+           | TASK ||  The task will exce  ||   ${value2}        ${type}
+           | PATH ||  The path for result ||   ${value3}        ${path}
+           | USER ||  User for Tomcat     ||   ${value4}        ${user}
+           | PASS ||  Pass for Tomcat     ||   ${value5}        ${pass}
+           +------++----------------------++------------++----------------+
+!
+}
+
+function scrappas() {
+	awk '{printf $3}' /usr/share/tomcat/conf/tomcat-users.xml > /tmp/hasil.txt
+	sed -e 's/password//g' -e 's/=//g' -e 's/"//g' /tmp/hasil.txt > /tmp/hasil2.txt
+	grep -E "[a-z,A-Z,0-9]" /tmp/hasil2.txt > .infog/.secret.txt
+	gunting=$(cat .infog/.secret.txt)
+	echo $gunting
+}
+
+function setpas() {
+
+  unset PASSWORD
+  unset CHARCOUNT
+
+  stty -echo
+
+  CHARCOUNT=0
+  while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
+  do
+      # Enter - accept password
+      if [[ $CHAR == $'\0' ]] ; then
+          break
+      fi
+      # Backspace
+      if [[ $CHAR == $'\177' ]] ; then
+          if [ $CHARCOUNT -gt 0 ] ; then
+              CHARCOUNT=$((CHARCOUNT-1))
+              PROMPT=$'\b \b'
+              PASSWORD="${PASSWORD%?}"
+          else
+              PROMPT=''
+          fi
+      else
+          CHARCOUNT=$((CHARCOUNT+1))
+          PROMPT='*'
+          PASSWORD+="$CHAR"
+      fi
+  done
+
+  stty echo
+
+  echo $PASSWORD
+
+}
+
+helptomcat() {
+
+echo -e "\n | "
+echo " | "
+echo " |_ "
+echo "    Options:[arguments] "
+echo ""
+echo -e $green"	     help      "$endc"  |"$green":"$endc"| show this message"
+echo -e $green"	     task list "$endc"  |"$green":"$endc"| show list task  "
+echo -e $green"	     options   "$endc"  |"$green":"$endc"| show module options "
+echo -e $green"	     set       "$endc"  |"$green":"$endc"| Set a value "
+echo -e $green"	     run       "$endc"  |"$green":"$endc"| Execute the module "
+echo -e $green"	     back      "$endc"  |"$green":"$endc"| Back to main"
+echo -e $green"	     clear     "$endc"  |"$green":"$endc"| Clear window"
+echo -e $green"	     ls        "$endc"  |"$green":"$endc"| list directory content"
+echo -e $green"	     cat       "$endc"  |"$green":"$endc"| read file/standard input"
+echo -e $green"	     pwd       "$endc"  |"$green":"$endc"| print name of current/working director"
+echo -e $green"	     exit      "$endc"  |"$green":"$endc"| Exit program"
+echo ""
+
+}
+
+
+			clear;tomcat_banner
+			while /bin/true
+			do
+				echo -ne $green"\niTsupport""╺─╸"$green"["$white" TomcaT "$green"]"$red" > " $endc;read case1 case2 case3 case4
+
+				if   [[ $case1 == "help"    ]]; then
+						helptomcat
+
+				elif [[ $case1 == "pwd"     ]]; then
+						echo -ne $red"\nPath : "; pwd
+
+				elif [[ $case1 == "back"    ]]; then
+						controller
+
+				elif [[ $case1 == "ls"      ]]; then
+						echo -e $red;ls
+
+				elif [[ $case1 == "exit"    ]]; then
+						exit 1
+
+				elif [[ $case1 == "clear"   ]]; then
+						clear
+
+				elif [[ $case1 == "cat"     ]] && [[ $case2 == "$case2" ]]; then
+						echo -e "\n$(cat $case2)"
+
+				elif [[ $case1 == "cd"     ]] && [[ $case2 == "$case2" ]]; then
+						cd $case2
+
+				elif [[ $case1 == "options" ]]; then
+						clear;tomcat_banner;result
+
+				elif [[ $case1 == "task"    ]] && [[ $case2 == "list" ]]; then
+						echo -e "\n | "
+						echo " |_ "
+						echo "    Task :"
+						echo ""
+						echo -e $green "\t  [1] "$endc"Install Tomcat 6.0.30 \t\t"$green "[5] "$endc"Crontab Auto Setting \t  "
+						echo -e $green "\t  [2] "$endc"Install Tomcat 7.0.30 \t\t"$green "[6] "$endc"Edit Crontab \t  "
+						echo -e $green "\t  [3] "$endc"Change Password Tomcat  \t\t "
+						echo -e $green "\t  [4] "$endc"Automatic backup webapps "
+						echo -e ""
+
+				elif [[ $case1 == "set" ]]; then
+
+						if   [[ $case2 == "password"  ]] && [[ $case3 == "$case3" ]]; then
+								pass="$case3"
+
+						elif [[ $case2 == "user"      ]] && [[ $case3 == "$case3" ]]; then
+								user="$case3"
+
+						elif [[ $case2 == "path"      ]] && [[ $case3 == "$case3" ]]; then
+								path="$case3"
+
+						elif [[ $case2 == "task" ]] && [[ $case3 == "list" ]] && [[ $case4 == "$case4" ]]; then
+								if 	[[ $case4 == "1" ]]; then
+									echo "1" > $chck
+										file=".logfile/tomcatv6.rpm"
+										type1="0x1.key"
+										type=$type1
+										value1=True
+										value2=True
+										value3=False
+										value4="True"
+										value5="True"
+										path="-"
+
+								elif [[ $case4 == "2"  ]]; then
+									echo "2" > $chck
+										file="-"
+										type1="0x2.key"
+										type=$type1
+										value1=False
+										value2=True
+										value3=False
+										value4="True"
+										value5="True"
+										path="-"
+
+								elif [[ $case4 == "3" ]]; then
+									echo "3" > $chck
+										file=".template/0x3.key"
+										type1="0x3.key"
+										type=$type1
+										value1="True"
+										value2="True"
+										value3="False"
+										value4="False"
+										value5="False"
+										path="-"
+										user="-"
+										pass="-"
+
+								elif [[ $case4 == "4" ]]; then
+									  echo "4" > $chck
+									  	file=".template/0x4.key"
+									  	type1="0x4.key"
+									  	type=$type1
+									  	value1="True"
+											value2="True"
+											value3="True"
+											value4="False"
+											value5="False"
+											user="-"
+											pass="-"
+
+								elif [[ $case4 == "5" ]]; then
+							 		  echo  "5" > $chck
+										 file=".template/0x5.key"
+										 type1="0x5.key"
+										 type=$type1
+										 value1=true
+								  	 value2=true
+								 		 value3="false"
+										 value4="false"
+										 value5="false"
+										 path="-"
+										 user="-"
+										 pass="-"
+								elif [[ $case4 == "6" ]]; then
+								  	echo  "6" > $chck
+										 file=".template/0x6.key"
+										 type1="0x6.key"
+										 type=$type1
+										 value1=true
+										 value2=true
+										 value3="false"
+										 value4="false"
+										 value5="false"
+										 path="-"
+										 user="-"
+										 pass="-"
+								fi
+						fi
+
+				elif [[ $case1 == "run" ]]; then
+
+					checker=$(cat result.txt)
+
+					if [[ $checker == "1" ]]; then
+							# Tomcat v6
+						echo -e "\n${green} ==>$endc Warning : \n "
+						echo -e " ${green} => ${endc}Mounting all Requirments"
+					(	echo -ne " ${green} => ${endc}Execute the task list "
+						if [[ -f .logfile/tomcatv6.tar.gz ]]; then
+							rm -rf /usr/share/tomcat/
+							yum install java-1.6.0-openjdk-devel -y >> /dev/null 2>&1
+								cd .logfile && tar -xvf tomcatv6.tar.gz >> /dev/null 2>&1 && cd ..
+								sleep 3
+								mv .logfile/apache-tomcat-6.0.32/ /usr/share/tomcat
+								chmod +x /usr/share/tomcat/bin/startup.sh
+								bash /usr/share/tomcat/bin/startup.sh
+								#chmod +x .logfile/apache-tomcat-6.0.32/bin/startup.sh
+								#bash .logfile/apache-tomcat-6.0.32/bin/startup.sh
+								cp .system/tomcat.txt /etc/init.d/tomcat
+								chmod 755 /etc/init.d/tomcat
+						#ping -c 10 google.com >> /dev/null 2>&1
+								#chkconfig --add /etc/init.d/tomcat
+								#chkconfig --level 23 /etc/init.d/tomcat on
+						fi
+					) & animation
+
+					(	echo -ne " ${green}\n\n => ${endc}Making user account  "
+						rm -rf  /usr/share/tomcat/conf/tomcat-users.xml >> /dev/null 2>&1
+						sleep 2
+						sed 's+tomcat_user+'$user'+g' .system/tomcat.xml >> .system/tomcat.result
+						sed 's+tomcat_passwd+'$pass'+g' .system/tomcat.result >>  /usr/share/tomcat/conf/tomcat-users.xml
+						rm -rf .system/tomcat.result
+						/etc/init.d/tomcat restart >> /dev/null 2>&1
+					  firewall-cmd --zone="public" --port-add="8080/tcp" --permanent >> /dev/null 2>&1
+					  firewall-cmd --reload >> /dev/null 2>&1
+					) & animation
+					 echo -e "\n${green} => ${endc}Done ! "
+
+				  elif [[ $checker == "2" ]]; then
+							# Tomcat V7
+							rm -rf /usr/share/tomcat/
+						echo -e "\n${green} ==>$endc Warning : \n "
+						echo -e " ${green} => ${endc}Mounting all Requirments"
+					( echo -ne " ${green} => ${endc}Execute the task list "
+				   	yum install tomcat-webapps tomcat-admin-webapps tomcat-docs-webapp tomcat-javadoc -y >> /dev/null 2>&1
+						sleep 2
+
+					) & animation
+
+							( echo -ne "  ${green} => ${endc}\n\nMaking user account  "
+								rm -rf /usr/share/tomcat/conf/tomcat-users.xml >> /dev/null 2>&1
+								sed 's+tomcat_user+'$user'+g' .system/tomcat.xml >> .system/tomcat.result
+								sed 's+tomcat_passwd+'$pass'+g' .system/tomcat.result >> /usr/share/tomcat/conf/tomcat-users.xml
+								rm -rf .system/tomcat.result
+								systemctl restart tomcat >> /dev/null 2>&1
+							  firewall-cmd --zone="public" --port-add="8080/tcp" --permanent >> /dev/null 2>&1
+						    firewall-cmd --reload  >> /dev/null 2>&1
+								sleep 2
+							) & animation
+								echo -e "\n ${green} => ${endc}Done ! "
+
+					elif [[ $checker == "3" ]]; then
+						# change password tomcatae
+						echo -e "\n $bblue Tomcat Password Settings"
+						echo -ne "\n $red\e[5m==>\e[25m${green} Remember Your old Password ? y/n ->$endc "
+						read answare
+							if [[ $answare == "yes" ]] || [[ $answare == "y" ]]|| [[ $answare == "YES" ]] || [[ $answare == "Yes" ]]; then
+								validate=$(scrappas sandi)
+								while [[ True ]]; do
+									echo -ne "\n${green}      -> Old Password :${endc} "
+									varpas=$(setpas oldpas)
+									if [[ $varpas == "$validate" ]]; then
+										while [[ true ]]; do
+
+											echo -ne "\n\n${green}      -> New Password :${endc} "
+											varpas1=$(setpas new)
+											echo -ne "\n${green}      -> Retry Password :${endc} "
+											varpas2=$(setpas new2)
+
+											if [[ $varpas1 != $varpas2 ]]; then
+													echo -e "\n  ${red}    ~> Password not match!"
+
+											else
+													echo -ne "\n\n  ${bblue}    => Restarting Apache Tomcat Service "
+												(	sed -i "s/$validate/$varpas2/g" /usr/share/tomcat/conf/tomcat-users.xml
+													#ping -c 10 google.com >> /dev/null 2>&1
+													systemctl restart tomcat >> /dev/null 2>&1
+													sleep 1
+												) & animation
+												sleep 3
+												echo -e "\n  ${bgreen}    => Done !"
+												exit
+											fi
+
+										done
+									else
+										 echo -e "\n  ${red}    ~> Wrong password!"
+									fi
+								done
+
+							elif [[ $answare == "no" ]] || [[ $answare == "n" ]] || [[ $answare == "NO" ]] || [[ $answare == "No" ]]; then
+								echo -ne " ${white}\e[5m==>\e[25m${green} This Choose Will Reconfigure Tomcat users want to Continue?  y/n ->$endc "
+								read answaree
+									if [[ $answaree == "y" ]] || [[ $answaree == "yes" ]] || [[ $answaree == "Y" ]] || [[ $answaree == "YES" ]] || [[ $answare = "Yes" ]]; then
+										echo -ne "\n${blue}      ->${green} Username :${endc} "
+										read human
+											while [[ True ]]; do
+												echo -ne "\n${blue}      ->${green} Password :${endc} "
+												varpas3=$(setpas baru)
+												echo -ne "\n${blue}      ->${green} Retype Password :${endc} "
+												varpas4=$(setpas baru2)
+													if [[ $varpas3 == $varpas4 ]]; then
+														( echo -ne "\n\n ${green} => ${endc}Making user account  "
+															rm -rf /usr/share/tomcat/conf/tomcat-users.xml >> /dev/null 2>&1
+															sed 's+tomcat_user+'$user'+g' .system/tomcat.xml >> .system/tomcat.result
+															sed 's+tomcat_passwd+'$pass'+g' .system/tomcat.result >> /usr/share/tomcat/conf/tomcat-users.xml
+															rm -rf .system/tomcat.result
+															/etc/init.d/tomcat restart >> /dev/null 2>&1
+														  firewall-cmd --zone="public" --port-add="8080/tcp" --permanent >> /dev/null 2>&1
+															#ping -c 10 google.com >> /dev/null 2>&1
+															firewall-cmd --reload
+															sleep 2
+														) & animation
+														echo -e "\n  ${bgreen}=> Done !"
+														exit
+													else
+														echo -e "\n  ${red}    ~> Password not match!"
+													fi
+											done
+									else
+											echo -e  "\t\n${red}Aborted"
+									fi
+							fi
+
+						elif [[ $checker == "4" ]]; then
+							 # backup webapps
+							echo -e "\n${green} ==>$endc Warning : \n "
+						  echo -e " ${green} => ${endc}Mounting all Requirments"
+					 (	echo -ne " ${green} => ${endc}Execute the task list "
+							 rm -rf output/webapps-dimata.sh
+							 bash .template/0x4.key
+							 sed -i "s=dir=$path=g" output/webapps-dimata.sh
+							 chmod +x output/webapps-dimata.sh
+							 sleep 2
+						) & animation
+						echo -e "\n ${green} => ${endc}Done ! "
+						echo -e "\n ${green} => ${endc}Check Result in output folder"
+
+					elif [[ $checker == "5" ]]; then
+						# crontab auto confi4gure
+
+						echo -ne "\n $green Insert Path of File Backup ->${endc}  "
+						read directory
+						echo -e "\n$green ==> ${endc}Set Crontab Timer"
+						echo -ne "\n$green           => ${endc}Minute : "
+						read time
+						echo -ne "$green           => ${endc}Hours  : "
+						read time2
+						echo -ne "$green           => ${endc}Day    : "
+						read time3
+						echo -ne "$green           => ${endc}Month  : "
+						read time4
+						echo -ne "$green           => ${endc}Week   : "
+						read time5
+						# justice
+						place=$(pwd)
+						clock="*"
+						directoryasli="$place/output/webapps-dimata.sh"
+						directory="${directory:-${directoryasli}}"
+						time="${time:-${clock}}"
+						time2="${time2:-${clock}}"
+						time3="${time3:-${clock}}"
+						time4="${time4:-${clock}}"
+						time5="${time5:-${clock}}"
+
+
+						echo -e "\n${green} ==>$endc Warning : \n "
+						echo -e " ${green} => ${endc}Mounting all Requirments"
+					(	echo -ne " ${green} => ${endc}Execute the task list "
+
+						crontab -l > gungdewi.txt >> /dev/null 2>&1
+						echo -e "$time $time2 $time3 $time4 $time5 $directory" >> gungdewi.txt
+						crontab gungdewi.txt
+						sleep 5
+
+
+
+
+					) & animation
+					echo -e "\n\n ${green} Result : ${endc} $(cat gungdewi.txt)"
+					echo -e "\n ${green} => ${endc}Done ! "
+					rm -rf gungdewi.txt
+
+				elif [[ $checker == "6" ]]; then
+					# Edit crontab
+					echo -e "\n${green} ==>$endc Warning : \n "
+					echo -e " ${green} => ${endc}Mounting all Requirments"
+				 (  echo -ne " ${green} => ${endc}Execute the task list "
+
+					sleep 3
+
+				 ) & animation
+				 echo -e "\n"
+				 crontab -e
+				 echo -e "\n ${green} Result : ${endc} $(crontab -l)"
+				 echo -e "\n ${green} => ${endc}Done ! "
+
+
+				fi
+
+		  fi
+	  done
+
+
+
+
+}

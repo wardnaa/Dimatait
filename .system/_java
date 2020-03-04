@@ -1,0 +1,199 @@
+#!/bin/bash
+
+enc_java() {
+
+	java-banner() {
+
+	printf " $white
+   _____                           _____     __ __
+ _|     |.---.-.--.--.---.-.     _|     |.--|  |  |--.
+|       ||  _  |  |  |  _  |    |       ||  _  |    <
+|_______||___._|\___/|___._|    |_______||_____|__|__|
+
+ ${green}Project   :${bblue} https://github.com/wardnaa/Dimatait
+ ${endc}Tested on : Centos 7
+
+ JDK is an application package that contains JVM + JRE + various applications,
+ for the process of making Java program code.One of the additional commands in JDK
+ is the javac command,used to process Java program code becomes byte code.
+		"
+	}
+
+
+chck='result.txt'
+echo "1137" > $chck
+result() {
+	cat << !
+
+  Options :
+           +------++----------------------++------------++----------------+
+           | Name ||  Descript            ||  Required  ||   Your Value
+           +------++----------------------++------------++----------------+
+           | TASK ||  The task will exce  ||    ${value}         ${type}
+           +------++----------------------++------------++----------------+
+!
+}
+
+
+
+helpjava() {
+
+echo -e "\n | "
+echo " | "
+echo " |_ "
+echo "    Options:[arguments] "
+echo ""
+echo -e $green"	     help  "$endc"      |"$green":"$endc"| show this message"
+echo -e $green"	     task list "$endc"  |"$green":"$endc"| show list task  "
+echo -e $green"	     options"$endc"     |"$green":"$endc"| show module options "
+echo -e $green"	     set        "$endc" |"$green":"$endc"| Set a value "
+echo -e $green"	     run        "$endc" |"$green":"$endc"| Execute the module "
+echo -e $green"	     back   "$endc"     |"$green":"$endc"| Back to main"
+echo -e $green"	     clear  "$endc"     |"$green":"$endc"| Clear window"
+echo -e $green"	     ls     "$endc"     |"$green":"$endc"| list directory content"
+echo -e $green"	     cat    "$endc"     |"$green":"$endc"| read file/standard input"
+echo -e $green"	     pwd     "$endc"    |"$green":"$endc"| print name of current/working director"
+echo -e $green"	     exit     "$endc"   |"$green":"$endc"| Exit program"
+echo ""
+
+   }
+			clear;java-banner
+			while /bin/true
+			do
+				echo -ne $green"\niTsupport""╺─╸"$green"["$white" Java Jdk "$green"]"$red" > " $endc;read a b c d
+
+					if 	 [[ $a == "help"    ]]; then
+						 helpjava
+
+					elif [[ $a == "clear"   ]]; then
+						 clear
+
+					elif [[ $a == "pwd"     ]]; then
+						 echo -ne "${red}Path: ";pwd
+
+				    elif [[ $a == "exit"    ]]; then
+				    	 exit 1
+
+				    elif [[ $a == "ls"      ]]; then
+				    	 echo -e ${red};ls
+
+				    elif [[ $a == "back"    ]]; then
+				    	controller
+
+				    elif [[ $a == "options" ]]; then
+				    	 clear;java-banner;result
+
+				    elif [[ $a == "cat"  ]] && [[ $b == "$b"   ]]; then
+				    	 echo -e "\n$(cat $b)"
+
+						elif [[ $a == "cd"      ]] && [[ $b == "$b" ]]; then
+	 							cd $b
+
+				    elif [[ $a == "task" ]] && [[ $b == "list" ]]; then
+				    	echo -e "\n | "
+						echo " |_ "
+						echo "    Task :"
+						echo ""
+		                echo -e $green "\t  [1] "$endc"Install Java JDK v6 \t"$green"[4] "$endc" Install Java JDK v11\t\t"
+						echo -e $green "\t  [2] "$endc"Install Java JDK v7 \t\t  "
+						echo -e $green "\t  [3] "$endc"Install Java JDK v8\t\t"
+						echo -e ""
+
+					elif [[ $a == "set" ]]; then
+						if [[ $b == "task" ]] && [[ $c == "list" ]] && [[ $d == "$d" ]]; then
+								if 	 [[ $d == "1" ]]; then
+									  echo "1" > $chck
+									  value="True"
+									  type="0x1.key"
+
+								elif [[ $d == "2" ]]; then
+									  echo "2" > $chck
+									  value="True"
+									  type="0x2.key"
+
+								elif [[ $d == "3" ]]; then
+									  echo "3" > $chck
+									  value="True"
+									  type="0x3.key"
+
+								elif [[ $d == "4" ]]; then
+									  echo "4" > $chck
+									  value="True"
+									  type="0x4.key"
+
+								fi
+						fi
+
+					elif [[ $a == "run" ]]; then
+						checker=$(cat result.txt)
+
+							if [[ $checker == "1" ]]; then
+								echo -e "\n${green} ==>$endc Warning : \n "
+								echo -e " ${green} => ${endc}Mounting all Requirments"
+							  ( echo -ne " ${green} => ${endc}Execute the task list "
+
+							  	yum install java-1.6.0-openjdk-devel -y >> /dev/null 2>&1
+
+							  ) & animation
+							  clear
+							  bash header/java.logo && alternatives --config java
+							  sleep 1
+							  clear
+							  echo -e "\n\n ${green} => ${endc}Done ! "
+
+							 elif [[ $checker == "2" ]]; then
+							 	echo -e "\n${green} ==>$endc Warning : \n "
+								echo -e " ${green} => ${endc}Mounting all Requirments"
+							  ( echo -ne " ${green} => ${endc}Execute the task list "
+
+							  	yum install java-1.7.0-openjdk-devel -y >> /dev/null 2>&1
+
+							  ) & animation
+							  clear
+							  bash header/java.logo && alternatives --config java
+							  sleep 1
+							  clear
+							  echo -e "\n\n ${green} => ${endc}Done ! "
+
+							  elif [[ $checker == "3" ]]; then
+							 	echo -e "\n${green} ==>$endc Warning : \n "
+								echo -e " ${green} => ${endc}Mounting all Requirments"
+							  ( echo -ne " ${green} => ${endc}Execute the task list "
+
+							  	yum install java-1.8.0-openjdk-devel -y >> /dev/null 2>&1
+
+							  ) & animation
+							  clear
+							  bash header/java.logo && alternatives --config java
+							  clear
+							  sleep 1
+							  echo -e "\n\n ${green} => ${endc}Done ! "
+
+							  elif [[ $checker == "4" ]]; then
+							 	echo -e "\n${green} ==>$endc Warning : \n "
+								echo -e " ${green} => ${endc}Mounting all Requirments"
+							  ( echo -ne " ${green} => ${endc}Execute the task list "
+
+							  	yum install java-11-openjdk-devel -y >> /dev/null 2>&1
+							  	#ping -c 5 google.com >> /dev/null 2>&1
+
+							  ) & animation
+							  clear
+							  bash header/java.logo && alternatives --config java
+							  sleep 1
+							  clear
+							  echo -e "\n\n ${green} => ${endc}Done ! "
+
+
+
+
+							fi
+					else
+						oops
+
+
+
+					fi
+			done
+
+}

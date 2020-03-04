@@ -1,0 +1,1 @@
+cd path && zip -r dimatait-backupdb-$date.zip * && rm -rf backupdb-* >> /dev/null 2>&1
